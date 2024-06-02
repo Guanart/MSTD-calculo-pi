@@ -12,12 +12,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-        }
-
-        .controls {
-            margin-bottom: 20px;
+            background-color: #f1f1f1;
         }
 
         main {
@@ -26,6 +23,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            max-width: 80vw;
+        }
+
+        .controls {
+            margin-bottom: 20px;
         }
 
         footer {
@@ -37,6 +40,9 @@
             justify-content: center;
         }
 
+        canvas {
+            max-width: 100%;
+        }
     </style>
 </head>
 
@@ -44,7 +50,8 @@
     <main>
         <h1>Estimación de π mediante método Monte Carlo - Gonzalo Benito</h1>
         <p><strong>Variables</strong> tomadas en cuenta: cantidad de granos de arroz.</p>
-        <p><strong>Modelo</strong>: si <u><strong>distancia <= radio</strong></u>, entonces el grano cayó dentro del círculo; sino cayó en el cuadrado</p>
+        <p><strong>Modelo</strong>: si <u><strong>distancia <= radio</strong></u>, entonces el grano cayó dentro del
+            círculo; sino cayó en el cuadrado</p>
         <br>
         <div class="controls">
             <label for="numGranosArroz">Cantidad de granos de arroz a tirar:</label>
@@ -88,7 +95,7 @@
             for (let i = 0; i < cantGranos; i++) {
                 const x = Math.random() * size; // [0, size]
                 const y = Math.random() * size; // [0, size]
-                const distancia = Math.sqrt((x - centerX)**2 + (y - centerY)**2); // Distancia del grano al centro del círculo
+                const distancia = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2); // Distancia del grano al centro del círculo
 
                 if (distancia <= radio) {
                     insideCircle++;
