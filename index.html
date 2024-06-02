@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimación de π mediante método Monte Carlo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        footer {
+            height: 50px;
+            width: 100%;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Estimación de π mediante método Monte Carlo - Gonzalo Benito</h1>
+        <p><strong>Variables</strong> tomadas en cuenta: cantidad de granos de arroz.</p>
+        <p><strong>Modelo</strong>: si <u><strong>distancia <= radio</strong></u>, entonces el grano cayó dentro del círculo; sino cayó en el cuadrado</p>
+        <br>
+        <div class="controls">
+            <label for="numGranosArroz">Cantidad de granos de arroz a tirar:</label>
+            <input type="number" id="numGranosArroz" value="1000">
+            <button onclick="estimarPi()">Estimar π</button>
+        </div>
+        <p id="estimadoDePi">Estimado de π: </p>
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </main>
+    <footer>
+        <p>© 2024 Gonzalo Benito</p>
+    </footer>
+    <script>
+        document.getElementById('numGranosArroz').addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                estimarPi();
+            }
+        });
+
+        function estimarPi() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const size = Math.min(width, height);  // Tamaño del lado del cuadrado y el diámetro del círculo
+
+            // Dibujar el cuadrado y el círculo donde caerán los granos de arroz
+            ctx.clearRect(0, 0, width, height);  // Limpiar canvas
+            ctx.strokeRect(0, 0, size, size);  // Dibuja el cuadrado
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);  // Dibuja el círculo
+            ctx.stroke();
+
+            const cantGranos = document.getElementById('numGranosArroz').value;
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radio = size / 2;
+            let insideCircle = 0;  // Contador para los granos que caen dentro del círculo
+            let totalGranos = 0;  // Contador para los granos totales
+
+            for (let i = 0; i < cantGranos; i++) {
+                const x = Math.random() * size; // [0, size]
+                const y = Math.random() * size; // [0, size]
+                const distancia = Math.sqrt((x - centerX)**2 + (y - centerY)**2); // Distancia del grano al centro del círculo
+
+                if (distancia <= radio) {
+                    insideCircle++;
+                    ctx.fillStyle = 'lightgreen';
+                } else {
+                    ctx.fillStyle = 'lightcoral';
+                }
+
+                totalGranos++;
+                ctx.fillRect(x, y, 2, 2);   // Pinta el grano de arroz
+            }
+
+            const estimadoDePi = 4 * (insideCircle / totalGranos);
+            document.getElementById('estimadoDePi').textContent = `Estimate of π: ${estimadoDePi}`;
+            /* Explicación del cálculo de la distancia:
+                Se basa en el teorema de Pitágoras aplicado para calcular la distancia entre dos puntos en un plano. En este caso, el punto (size / 2, size / 2) es el centro del círculo.
+                1. (x - size/2) es la diferencia en el eje X entre el grano y el centro del círculo.
+                2. (y - size/2) es la diferencia en el eje Y entre el grano y el centro del círculo.
+                Luego, se suman los cuadrados de estas diferencias y se calcula la raíz cuadrada del resultado para obtener la distancia.
+            */
+        }
+    </script>
+</body>
+
+</html>
