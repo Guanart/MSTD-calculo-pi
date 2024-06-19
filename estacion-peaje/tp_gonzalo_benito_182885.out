@@ -1,0 +1,168 @@
+
+----------------------------------------------------------------------
+19114:CCREAT
+A runtime error was detected at time 2.9914772 at the following block:
+
+ *   48 174$            CREATE,1,SecondstoBaseTime(0.0),Gran Porte:
+                            SecondstoBaseTime(EXPO(60)):
+                            NEXT(175$);
+
+Maximum of 150 entities exceeded.
+Possible causes:
+- A logic problem in your model is creating too many entities or not
+  disposing them. The run controller may be helpful in finding the problem.
+- You are in demo mode and have exceeded the entity limit. The commercial
+  version is required to run large models.
+- You have set an entity limit on the DISCRETE element that is too small.
+  Remove the limit or set it to a larger number.
+- You have exceeded the standard array s 
+pace for models. Use the Array Sizes
+  page in the Run/Setup dialog to increase the RSET space allocated and
+  recheck your model.
+----------------------------------------------------------------------
+
+
+SIMAN Run Controller.
+
+2.9914772 Hours>
+                                      ARENA Simulation Results
+                                     Gonzalo - License: STUDENT
+
+                                  Summary for Replication 1 of 50
+
+Project: Unnamed Project                                             Run execution date : 6/18/2024
+Analyst: estebangideke                                               Model revision date: 6/18/2024
+
+Replication ended at time      : 2.9914772 Hours 
+Base Time Units: Hours
+
+                                           TALLY VARIABLES
+
+Identifier                                  Average   Half Width  Minimum    Maximum   Observations
+___________________________________________________________________________________________________
+
+TS Liviano                                      --         --         --         --          0
+Cabina 4.TotalTimePerEntity                  6.9579E-4 (Insuf)    .00000     .00413         19    
+Cabina 3.TotalTimePerEntity                 .33570     (Insuf)    .02468     .65686        153    
+Cabina 2.TotalTimePerEntity                 .33030     (Insuf)    .02433     .64949        161    
+Cabina 1.TotalTimePerEntity                 .30897     (Insuf)    .01667     .61636        179    
+Cabina 4.VATimePerEntity                     6.9579E-4 (Insuf)    .00000     .00413         19    
+Cabina 3.VATimePerEntity                    .01948     (Insuf)    .00906     .03237        153    
+Cabina 2.VATimePerEntity                    .01846     (Insuf)    .01334     .02498        161    
+Cabina 1.VATimePerEntity                    .01667     (Insuf)    .01667     .01667        179    
+Cabina 3.WaitTimePerEntity                  .31622     (Insuf)    .00000     .62657        153    
+Cabina 2.WaitTimePerEntity                  .31184     (Insuf)    .00000     .63013        161    
+Cabina 1.WaitTimePerEntity                  .29230     (Insuf)    .00000     .59970        179    
+TS Pesado                                       --         --         --         --          0
+Motos.VATime                                .01831     (Insuf)    .01342     .02689         27    
+Motos.NVATime                               .00000     (Insuf)    .00000     .00000         27    
+Motos.WaitTime                              .32840     (Insuf)    .01149     .63013         27    
+Motos.TranTime                              .00000     (Insuf)    .00000     .00000         27    
+Motos.OtherTime                             .00000     (Insuf)    .00000     .00000         27    
+Motos.TotalTime                             .34671     (Insuf)    .03270     .64949         27    
+Gran Porte.VATime                           .01671     (Insuf)    .00000     .03237        140    
+Gran Porte.NVATime                          .00000     (Insuf)    .00000     .00000        140    
+Gran Porte.WaitTime                         .26873     (Insuf)    .00000     .59618        140    
+Gran Porte.TranTime                         .00000     (Insuf)    .00000     .00000        140    
+Gran Porte.OtherTime                        .00000     (Insuf)    .00000     .00000        140    
+Gran Porte.TotalTime                        .28543     (Insuf)    .00000     .61284        140    
+Especial.VATime                             .01737     (Insuf)    .01148     .02468          4    
+Especial.NVATime                            .00000     (Insuf)    .00000     .00000          4    
+Especial.WaitTime                           .30065     (Insuf)    .00000     .48352          4    
+Especial.TranTime                           .00000     (Insuf)    .00000     .00000          4    
+Especial.OtherTime                          .00000     (Insuf)    .00000     .00000          4    
+Especial.TotalTime                          .31803     (Insuf)    .02468     .49500          4    
+Grandes.VATime                              .01697     (Insuf)    .00000     .02543        122    
+Grandes.NVATime                             .00000     (Insuf)    .00000     .00000        122    
+Grandes.WaitTime                            .28865     (Insuf)    .00000     .59970        122    
+Grandes.TranTime                            .00000     (Insuf)    .00000     .00000        122    
+Grandes.OtherTime                           .00000     (Insuf)    .00000     .00000        122    
+Grandes.TotalTime                           .30561     (Insuf)    .00000     .61636        122    
+Pequeños.VATime                             .01815     (Insuf)    .00000     .03187        219    
+Pequeños.NVATime                            .00000     (Insuf)    .00000     .00000        219    
+Pequeños.WaitTime                           .31052     (Insuf)    .00000     .62657        219    
+Pequeños.TranTime                           .00000     (Insuf)    .00000     .00000        219    
+Pequeños.OtherTime                          .00000     (Insuf)    .00000     .00000        219    
+Pequeños.TotalTime                          .32868     (Insuf)    .00000     .65686        219    
+Cabina 4.Queue.WaitingTime                      --         --         --         --          0
+Cabina 3.Queue.WaitingTime                  .31841     (Insuf)    .00000     .65435        154    
+Cabina 2.Queue.WaitingTime                  .31386     (Insuf)    .00000     .63859        162    
+Cabina 1.Queue.WaitingTime                  .29401     (Insuf)    .00000     .59970        180    
+
+                                     DISCRETE-CHANGE VARIABLES
+
+Identifier                                  Average   Half Width  Minimum    Maximum   Final Value
+___________________________________________________________________________________________________
+
+Motos.WIP                                   4.6214     (Insuf)    .00000     14.000     12.000    
+Gran Porte.WIP                              17.195     (Insuf)    .00000     36.000     35.000    
+Especial.WIP                                .52501     (Insuf)    .00000     2.0000     1.0000    
+Grandes.WIP                                 15.211     (Insuf)    .00000     28.000     28.000    
+Pequeños.WIP                                31.435     (Insuf)    .00000     68.000     68.000    
+Empleado D1.NumberBusy                      .00000     (Insuf)    .00000     .00000     .00000    
+Empleado D1.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado D1.Utilization                     .00000     (Insuf)    .00000     .00000     .00000    
+Empleado A1.NumberBusy                      1.0000     (Insuf)    .00000     1.0000     1.0000    
+Empleado A1.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado A1.Utilization                     1.0000     (Insuf)    .00000     1.0000     1.0000    
+Empleado D3.NumberBusy                      .00000     (Insuf)    .00000     .00000     .00000    
+Empleado D3.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado D3.Utilization                     .00000     (Insuf)    .00000     .00000     .00000    
+Empleado A3.NumberBusy                      1.0000     (Insuf)    .00000     1.0000     1.0000    
+Empleado A3.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado A3.Utilization                     1.0000     (Insuf)    .00000     1.0000     1.0000    
+Empleado D2.NumberBusy                      .00000     (Insuf)    .00000     .00000     .00000    
+Empleado D2.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado D2.Utilization                     .00000     (Insuf)    .00000     .00000     .00000    
+Empleado A2.NumberBusy                      1.0000     (Insuf)    .00000     1.0000     1.0000    
+Empleado A2.NumberScheduled                 1.0000     (Insuf)    1.0000     1.0000     1.0000    
+Empleado A2.Utilization                     1.0000     (Insuf)    .00000     1.0000     1.0000    
+Cabina 4.Queue.NumberInQueue                .00000     (Insuf)    .00000     .00000     .00000    
+Cabina 3.Queue.NumberInQueue                21.678     (Insuf)    .00000     47.000     47.000    
+Cabina 2.Queue.NumberInQueue                21.965     (Insuf)    .00000     47.000     47.000    
+Cabina 1.Queue.NumberInQueue                22.340     (Insuf)    .00000     47.000     47.000    
+
+                                             OUTPUTS
+
+Identifier                                   Value
+_____________________________________________________________
+
+Cabina 3 Accum Wait Time                    48.381    
+Cabina 2 Accum Wait Time                    50.206    
+Cabina 1 Accum Wait Time                    52.321    
+Cabina 4 Number Out                         19.000    
+Cabina 3 Number Out                         153.00    
+Cabina 2 Number Out                         161.00    
+Cabina 1 Number Out                         179.00    
+Cabina 4 Number In                          19.000    
+Cabina 3 Number In                          201.00    
+Cabina 2 Number In                          209.00    
+Cabina 1 Number In                          227.00    
+Cabina 4 Accum VA Time                      .01322    
+Cabina 3 Accum VA Time                      2.9809    
+Cabina 2 Accum VA Time                      2.9714    
+Cabina 1 Accum VA Time                      2.9833    
+Motos.NumberIn                              39.000    
+Motos.NumberOut                             27.000    
+Gran Porte.NumberIn                         175.00    
+Gran Porte.NumberOut                        140.00    
+Especial.NumberIn                           5.0000    
+Especial.NumberOut                          4.0000    
+Grandes.NumberIn                            150.00    
+Grandes.NumberOut                           122.00    
+Pequeños.NumberIn                           287.00    
+Pequeños.NumberOut                          219.00    
+Empleado D1.NumberSeized                    .00000    
+Empleado D1.ScheduledUtilization            .00000    
+Empleado A1.NumberSeized                    180.00    
+Empleado A1.ScheduledUtilization            1.0000    
+Empleado D3.NumberSeized                    .00000    
+Empleado D3.ScheduledUtilization            .00000    
+Empleado A3.NumberSeized                    154.00    
+Empleado A3.ScheduledUtilization            1.0000    
+Empleado D2.NumberSeized                    .00000    
+Empleado D2.ScheduledUtilization            .00000    
+Empleado A2.NumberSeized                    162.00    
+Empleado A2.ScheduledUtilization            1.0000    
+System.NumberOut                            512.00    
+

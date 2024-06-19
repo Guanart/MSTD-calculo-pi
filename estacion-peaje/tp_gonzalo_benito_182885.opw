@@ -1,0 +1,31 @@
+[RESOURCES]
+Empleado D1
+Empleado A1
+Empleado D3
+Empleado A3
+Empleado D2
+Empleado A2
+[VARIABLES]
+No Especial?.NumberOut True
+No Especial?.NumberOut False
+Llegada de Vehículos de Gran Porte.NumberOut
+Cabina 3.WaitTime
+Cabina 2.WaitTime
+Cabina 1.WaitTime
+Llegada de Vehículos Grandes.NumberOut
+Cabina 4.NumberOut
+Cabina 3.NumberOut
+Cabina 2.NumberOut
+Cabina 1.NumberOut
+Llegada de Motos.NumberOut
+Cabina 4.NumberIn
+Cabina 3.NumberIn
+Cabina 2.NumberIn
+Cabina 1.NumberIn
+Llegada de Vehículos Pequeños.NumberOut
+Llegada de Especial.NumberOut
+Cabina 4.VATime
+Cabina 3.VATime
+Cabina 2.VATime
+Cabina 1.VATime
+SALIDA.NumberOut
