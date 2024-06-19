@@ -10,11 +10,11 @@ class Vehiculo(Enum):
     GRAN_PORTE = 'Gran Porte'
     GRANDE = 'Grande'
     PEQUENO = 'Pequeño'
-    MOTOCICLETA = 'Moto'
-    ESPECIALES = 'Especiales'
+    MOTOCICLETA = 'Motocicleta'
+    ESPECIAL = 'Especial'
 
-# Tasas de llegada de los vehículos en hora pico y no pico
-tasas_arribo = {
+# Tasas de llegada de los vehículos en hora pico y no pico (TODAS SIGUEN UNA DISTRIBUCIÓN EXPONENCIAL)
+TIEMPOS_ENTRE_LLEGADAS = {
     'pico': {
         Vehiculo.GRAN_PORTE: 1/30,  # 1 cada 30 segundos
         Vehiculo.GRANDE: 1/40,      # 1 cada 40 segundos
@@ -30,7 +30,7 @@ tasas_arribo = {
 }
 
 # Distribuciones del tiempo de atención usando la librería random
-distribuciones_tiempo_servicio = {
+TIEMPOS_SERVICIO = {
     Vehiculo.GRAN_PORTE: lambda: random.uniform(45, 55),  # Distribución uniforme
     Vehiculo.GRANDE: lambda: random.expovariate(1 / 30),  # Distribución exponencial
     Vehiculo.PEQUENO: lambda: random.triangular(15, 20, 35),  # Distribución triangular
@@ -49,9 +49,9 @@ class Suceso:
         self.tipo_suceso = tipo_suceso
         self.tipo_vehiculo = tipo_vehiculo
         
+    # El método __lt__ permite que los objetos Suceso se ordenen en una cola de prioridad basada en el atributo "tiempo". En el contexto de una cola de prioridad (heap), esto asegura que los sucesos se procesen en el orden correcto basado en el tiempo en el que ocurren.
     def __lt__(self, otro_suceso):
         return self.tiempo < otro_suceso.tiempo
-    # El método __lt__ permite que los objetos Suceso se ordenen en una cola de prioridad basada en el atributo tiempo. En el contexto de una cola de prioridad (heap), esto asegura que los sucesos se procesen en el orden correcto basado en el tiempo en el que ocurren.
 
 class SimulacionCabinas:
     def __init__(self, tiempo_final, horarios_pico_mañana, horarios_pico_vespertino, multa_espera):
@@ -59,19 +59,19 @@ class SimulacionCabinas:
         self.tiempo_final = tiempo_final
         self.horarios_pico_mañana = horarios_pico_mañana
         self.horarios_pico_vespertino = horarios_pico_vespertino
-        self.cola_sucesos = []
+        self.cola_sucesos = []  # Cola de prioridad basada en heaps
         self.cabinas_libres = 1  # Número de cabinas disponibles inicialmente
         self.cola_vehiculos = []
         self.vehiculos_atendidos = 0    
         self.tiempos_espera = []    # (es una lista, para tener los tiempos individuales de cada vehiculo y calcular estadísticas)
         self.multa_espera_excesiva = multa_espera  # Multa por tiempo de espera excesivo (por segundo)
         self.costo_cabina_extra = 100  # Costo por habilitar una cabina extra
-        self.limite_espera = 3 * 60  # Límite de espera de 3 minutos
+        self.LIMITE_ESPERA = 3 * 60  # Límite de espera de 3 minutos
         self.programar_sucesos_iniciales()
 
     def ejecutar(self):
-        while self.tiempo_actual < self.tiempo_final and self.cola_sucesos:
-            suceso = heapq.heappop(self.cola_sucesos)
+        while self.tiempo_actual < self.tiempo_final:
+            suceso = heapq.heappop(self.cola_sucesos)   # Extrae el primer suceso de la cola de prioridad
             self.tiempo_actual = suceso.tiempo
             self.procesar_suceso(suceso)
         print(f"Simulación finalizada: {self.vehiculos_atendidos} vehículos atendidos.")
@@ -86,10 +86,10 @@ class SimulacionCabinas:
     def procesar_llegada(self, suceso):
         if self.cabinas_libres > 0:
             self.cabinas_libres -= 1
-            tiempo_salida = self.tiempo_actual + distribuciones_tiempo_servicio[suceso.tipo_vehiculo]()
+            tiempo_salida = self.tiempo_actual + TIEMPOS_SERVICIO[suceso.tipo_vehiculo]()
             heapq.heappush(self.cola_sucesos, Suceso(tiempo_salida, 'salida', suceso.tipo_vehiculo))
         else:
-            self.cola_vehiculos.append(suceso)
+            self.cola_vehiculos.append(suceso)  # Si no hay cabinas libres, se encola
         self.proxima_llegada(suceso.tipo_vehiculo)
 
     def proxima_llegada(self, tipo_vehiculo):
@@ -99,18 +99,18 @@ class SimulacionCabinas:
 
     def obtener_tasa_arribo(self, tipo_vehiculo):
         if self.es_hora_pico():
-            return tasas_arribo['pico'][tipo_vehiculo]
+            return TIEMPOS_ENTRE_LLEGADAS['pico'][tipo_vehiculo]
         else:
-            return tasas_arribo['no_pico'][tipo_vehiculo]
+            return TIEMPOS_ENTRE_LLEGADAS['no_pico'][tipo_vehiculo]
 
     def procesar_salida(self, suceso):
         self.vehiculos_atendidos += 1
         self.cabinas_libres += 1
         if self.cola_vehiculos:
-            vehiculo_saliente = self.cola_vehiculos.pop(0)
+            vehiculo_saliente = self.cola_vehiculos.pop(0)  # Se elimina vehiculo de la cola
             tiempo_espera = self.tiempo_actual - vehiculo_saliente.tiempo
             self.tiempos_espera.append(tiempo_espera)
-            tiempo_salida = self.tiempo_actual + distribuciones_tiempo_servicio[vehiculo_saliente.tipo_vehiculo]()
+            tiempo_salida = self.tiempo_actual + TIEMPOS_SERVICIO[vehiculo_saliente.tipo_vehiculo]()
             heapq.heappush(self.cola_sucesos, Suceso(tiempo_salida, 'salida', vehiculo_saliente.tipo_vehiculo, tiempo_llegada=suceso.tiempo))
 
     def es_hora_pico(self):
@@ -121,16 +121,16 @@ class SimulacionCabinas:
         return False
 
     def programar_sucesos_iniciales(self):
-        for tipo_vehiculo in tasas_arribo['no_pico'].keys():
-            tiempo_llegada = self.tiempo_actual + random.expovariate(tasas_arribo['no_pico'][tipo_vehiculo])
+        for tipo_vehiculo in TIEMPOS_ENTRE_LLEGADAS['no_pico'].keys():
+            tiempo_llegada = self.tiempo_actual + random.expovariate(TIEMPOS_ENTRE_LLEGADAS['no_pico'][tipo_vehiculo])
             heapq.heappush(self.cola_sucesos, Suceso(tiempo_llegada, 'llegada', tipo_vehiculo))
 
     def calcular_costos(self):
         tiempo_total_espera = sum(self.tiempos_espera)
-        multas = tiempo_total_espera * self.multa_espera_excesiva
-        tiempo_total_habilitacion = sum([((suceso.tiempo - suceso.tiempo_llegada) - self.limite_espera) for suceso in self.cola_sucesos if suceso.tipo_suceso == 'salida' and suceso.tiempo_llegada != None and (suceso.tiempo - suceso.tiempo_llegada) > self.limite_espera])
-
+        tiempo_total_habilitacion = sum([((suceso.tiempo - suceso.tiempo_llegada) - self.LIMITE_ESPERA) for suceso in self.cola_sucesos if suceso.tipo_suceso == 'salida' and suceso.tiempo_llegada != None and (suceso.tiempo - suceso.tiempo_llegada) > self.LIMITE_ESPERA])
+        multas = tiempo_total_habilitacion * self.multa_espera_excesiva
         costo_total_con_cabina_extra = (tiempo_total_habilitacion // (60*10)) * self.costo_cabina_extra
+
         print(f"Costo total sin cabina extra (multas): ${multas:.2f}")
         print(f"Costo total con cabina extra: ${costo_total_con_cabina_extra:.2f}")
         if costo_total_con_cabina_extra < multas:
@@ -141,22 +141,27 @@ class SimulacionCabinas:
 
     def mostrar_grafico_espera(self, tiempos_espera):
         plt.hist(tiempos_espera, bins=50, edgecolor='black')  # 50 intervalos
-        LIMITE_ESPERA = 3 * 60  # Límite de espera de 3 minutos
-        plt.axvline(LIMITE_ESPERA, color='red', linestyle='dashed', linewidth=1, label='Límite de 3 minutos')
+        plt.axvline(self.LIMITE_ESPERA, color='red', linestyle='dashed', linewidth=1, label='Límite de 3 minutos')
         plt.xlabel('Tiempo de espera (segundos)')
         plt.ylabel('Número de vehículos')
         plt.title('Distribución de los tiempos de espera de los vehículos')
         plt.legend()
         plt.show()
 
-    def ejecutar_n_veces(self, n_simulaciones):
-        tiempos_promedio_espera = []
-        for _ in range(n_simulaciones):
+    def ejecutar_n_veces(self, n):
+        tiempos_promedio_espera = []    # Lista para almacenar los tiempos promedio de espera de cada simulación
+        for _ in range(n):
             simulacion = SimulacionCabinas(self.tiempo_final, self.horarios_pico_mañana, self.horarios_pico_vespertino, multa_espera)
             simulacion.ejecutar()
-            tiempos_promedio_espera.append(statistics.mean(simulacion.tiempos_espera))
-        promedio_espera = statistics.mean(tiempos_promedio_espera)
+            tiempos_promedio_espera.append(statistics.mean(simulacion.tiempos_espera))  # Almacena el promedio
+
+        promedio_espera = statistics.mean(tiempos_promedio_espera)  # Promedio de los tiempos promedios
         intervalo_confianza = stats.t.interval(0.95, len(tiempos_promedio_espera)-1, loc=promedio_espera, scale=stats.sem(tiempos_promedio_espera))
+        # Utiliza la distribución t de student para calcular el intervalo de confianza
+        # Recibe como primer parámetro el nivel de confianza, el segundo es el número de grados de libertad (n-1)
+        # loc son los
+        # scale es el parámetro de escala, y le paso el error estándar de la media (SEM) de los tiempos promedios
+
         print("\nResultados de las simulaciones:")
         print(f"Tiempo promedio de espera: {promedio_espera:.2f} segundos")
         print(f"Intervalo de confianza del 95%: ({intervalo_confianza[0]:.2f}, {intervalo_confianza[1]:.2f})")
